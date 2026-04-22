@@ -19,25 +19,24 @@
   }
 }
 
+html, body, #root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
 }
 
 h1 {
   font-size: 3rem;
   margin: 0.5rem 0;
-  text-align: center;
 }
 
 p {
   font-size: 1rem;
-  text-align: center;
 }
 
 button {
