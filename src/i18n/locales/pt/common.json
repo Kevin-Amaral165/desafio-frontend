@@ -1,0 +1,18 @@
+{
+  "login": {
+    "title": "Login",
+    "username": "Usuário",
+    "password": "Senha",
+    "button": "Entrar",
+    "error": "Usuário ou senha inválidos"
+  },
+  "sidebar": {
+    "logout": "Sair",
+    "register": "Registrar"
+  },
+  "toolbar": {
+    "archive": "Arquivar",
+    "dark": "Modo escuro",
+    "light": "Modo claro"
+  }
+}

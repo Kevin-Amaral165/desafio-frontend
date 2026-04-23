@@ -1,10 +1,11 @@
 // Libraries
 import type { ReactNode } from "react";
 
-type Variant = "default" | "round";
+// Enum
+import type { ButtonVariant } from "../../enum/enum";
 
 export type ButtonProps = {
-  variant?: Variant;
+  variant?: ButtonVariant;
   icon?: ReactNode;
   children?: ReactNode;
 };

@@ -1,25 +1,49 @@
-// Enum
-import { ThemeMode } from "../../enum/enum";
+import { useTranslation } from "react-i18next";
 
-// Store
+// Enum
+import { ThemeMode, Language } from "../../enum/enum";
+
+// Stores
 import { useThemeStore } from "../../store/theme.store";
+import { useLanguageStore } from "../../store/language.store";
 
 // Styles
 import { Container, Left, Right } from "./Toolbar.style";
 
 export function Toolbar() {
-  const toggleTheme: () => void = useThemeStore((state) => state.toggleTheme);
-  const mode: ThemeMode = useThemeStore((state) => state.mode);
+  const { t, i18n } = useTranslation();
+
+  // THEME
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const mode = useThemeStore((state) => state.mode);
+
+  // LANGUAGE
+  const language = useLanguageStore((state) => state.language);
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
+
+  const handleToggleLanguage = () => {
+    const newLang =
+      language === Language.PT ? Language.EN : Language.PT;
+
+    setLanguage(newLang);
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <Container>
       <Left>
-        <button>Arquivar</button>
+        <button>{t("toolbar.archive")}</button>
       </Left>
 
       <Right>
+        <button onClick={handleToggleLanguage}>
+          {language === Language.PT ? "EN 🇺🇸" : "PT 🇧🇷"}
+        </button>
+
         <button onClick={toggleTheme}>
-          {mode === ThemeMode.LIGHT ? "🌙 Dark" : "☀️ Light"}
+          {mode === ThemeMode.LIGHT
+            ? `🌙 ${t("toolbar.dark")}`
+            : `☀️ ${t("toolbar.light")}`}
         </button>
       </Right>
     </Container>

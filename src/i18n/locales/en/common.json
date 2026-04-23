@@ -1,0 +1,18 @@
+{
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "button": "Sign in",
+    "error": "Invalid username or password"
+  },
+  "sidebar": {
+    "logout": "Logout",
+    "register": "Register"
+  },
+  "toolbar": {
+    "archive": "Archive",
+    "dark": "Dark mode",
+    "light": "Light mode"
+  }
+}

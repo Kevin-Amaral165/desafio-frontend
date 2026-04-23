@@ -10,6 +10,11 @@ export enum DropdownPosition {
   TOP_LEFT = "top-left",
 }
 
+export enum Language {
+  PT = "pt",
+  EN = "en",
+}
+
 export enum ThemeMode {
   LIGHT = "light",
   DARK = "dark",

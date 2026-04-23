@@ -21,11 +21,9 @@ export const Trigger = styled.div`
 export const Menu = styled.div<{ position: DropdownPositionType }>`
   position: absolute;
   min-width: 140px;
-
   background: ${({ theme }) => theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 8px;
-
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   z-index: 1000;
@@ -73,7 +71,6 @@ export const Menu = styled.div<{ position: DropdownPositionType }>`
 export const Item = styled.div<{ disabled?: boolean }>`
   padding: 10px 12px;
   font-size: 14px;
-
   display: flex;
   align-items: center;
   gap: 8px;
