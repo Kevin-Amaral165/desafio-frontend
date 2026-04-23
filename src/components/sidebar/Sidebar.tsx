@@ -52,8 +52,8 @@ export function Sidebar({
             position={DropdownPosition.BOTTOM_RIGHT}
             trigger={<Button variant={ButtonVariant.ROUND}>KA</Button>}
             options={[
-              { label: t("logout"), onClick: logout },
-              { label: t("register"), disabled: true },
+              { label: t("sidebar.logout"), onClick: logout },
+              { label: t("sidebar.register"), disabled: true },
             ]}
           />
           <Status />
