@@ -1,6 +1,21 @@
+// Libraries
 import { useState, useRef, useEffect } from "react";
+
+// Components
 import { Sidebar } from "../../components/sidebar/Sidebar";
-import { Container, Content, Divider } from "./Dashboard.style";
+import { Toolbar } from "../../components/toolbar/Toolbar";
+import { ContentList } from "../../components/contentList/ContentList";
+
+// Styles
+import {
+  Container,
+  Main,
+  Divider,
+  RightPanel,
+} from "./Dashboard.style";
+
+// Types
+import type { DashboardState } from "./Dashboard.types";
 
 const mockMenus = [
   {
@@ -14,11 +29,6 @@ const mockMenus = [
   },
 ];
 
-type DashboardState = {
-  selectedSubMenuId: number;
-  sidebarWidth: number;
-};
-
 export function Dashboard() {
   const [state, setState] = useState<DashboardState>({
     selectedSubMenuId: 101,
@@ -27,6 +37,9 @@ export function Dashboard() {
 
   const isDragging = useRef(false);
 
+  // ==============================
+  // RESIZE SIDEBAR
+  // ==============================
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging.current) return;
@@ -41,6 +54,7 @@ export function Dashboard() {
 
     const handleMouseUp = () => {
       isDragging.current = false;
+      document.body.style.cursor = "default";
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -54,6 +68,7 @@ export function Dashboard() {
 
   const handleMouseDown = () => {
     isDragging.current = true;
+    document.body.style.cursor = "col-resize";
   };
 
   const handleSelectSubMenu = (id: number) => {
@@ -65,6 +80,7 @@ export function Dashboard() {
 
   return (
     <Container>
+      {/* SIDEBAR */}
       <Sidebar
         width={state.sidebarWidth}
         menus={mockMenus}
@@ -72,12 +88,19 @@ export function Dashboard() {
         onSelectSubMenu={handleSelectSubMenu}
       />
 
+      {/* DIVIDER (RESIZE) */}
       <Divider onMouseDown={handleMouseDown} />
 
-      <Content>
-        <h1>Conteúdo</h1>
-        <p>Selecionado: {state.selectedSubMenuId}</p>
-      </Content>
+      {/* MAIN AREA */}
+      <Main>
+        {/* TOOLBAR (layout 3) */}
+        <Toolbar />
+
+        {/* CONTENT (layout 4) */}
+        <RightPanel>
+          <ContentList selectedSubMenuId={state.selectedSubMenuId} />
+        </RightPanel>
+      </Main>
     </Container>
   );
 }
