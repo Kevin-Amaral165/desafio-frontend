@@ -1,0 +1,63 @@
+{
+  "dashboard": {
+    "loadingItems": "Loading items...",
+    "loadingMenus": "Loading menus..."
+  },
+
+  "empty": {
+    "folderDesc": "No items found in this directory",
+    "folderTitle": "This folder is empty"
+  },
+
+  "errors": {
+    "fetchItems": "Error loading items",
+    "fetchMenus": "Error loading menus"
+  },
+
+  "item": {
+    "subject": {
+      "good_morning": "Good morning",
+      "notice": "Notice",
+      "received_message": "Did you receive my message?",
+      "reminder": "Reminder",
+      "waiting_response": "Waiting for response",
+      "weekend_call_response": "Reply from that weekend call"
+    }
+  },
+
+  "loading": {
+    "default": "Loading..."
+  },
+
+  "login": {
+    "button": "Sign in",
+    "error": "Invalid username or password",
+    "password": "Password",
+    "title": "Login",
+    "username": "Username"
+  },
+
+  "menu": {
+    "account1": "Account 1",
+    "account2": "Account 2",
+    "account3": "Account 3",
+    "inbox": "Inbox",
+    "outbox": "Outbox",
+    "trash": "Trash",
+    "vip": "Vip"
+  },
+
+  "sidebar": {
+    "logout": "Logout",
+    "register": "Register"
+  },
+
+  "toolbar": {
+    "archive": "Archive",
+    "dark": "Dark mode",
+    "inbox": "Inbox",
+    "light": "Light mode",
+    "restore": "Restore",
+    "trash": "Trash"
+  }
+}

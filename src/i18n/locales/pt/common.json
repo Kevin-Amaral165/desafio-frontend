@@ -1,0 +1,63 @@
+{
+  "dashboard": {
+    "loadingItems": "Carregando itens...",
+    "loadingMenus": "Carregando menus..."
+  },
+
+  "empty": {
+    "folderDesc": "Nenhum item encontrado neste diretório",
+    "folderTitle": "Esta pasta está vazia"
+  },
+
+  "errors": {
+    "fetchItems": "Erro ao carregar itens",
+    "fetchMenus": "Erro ao carregar menus"
+  },
+
+  "item": {
+    "subject": {
+      "good_morning": "Bom dia",
+      "notice": "Aviso",
+      "received_message": "Recebeu minha mensagem?",
+      "reminder": "Lembrete",
+      "waiting_response": "Aguardo retorno",
+      "weekend_call_response": "Resposta daquela chamada do final de semana"
+    }
+  },
+
+  "loading": {
+    "default": "Carregando..."
+  },
+
+  "login": {
+    "button": "Entrar",
+    "error": "Usuário ou senha inválidos",
+    "password": "Senha",
+    "title": "Entrar",
+    "username": "Usuário"
+  },
+
+  "menu": {
+    "account1": "Conta 1",
+    "account2": "Conta 2",
+    "account3": "Conta 3",
+    "inbox": "Caixa de entrada",
+    "outbox": "Caixa de saída",
+    "trash": "Lixo",
+    "vip": "Vip"
+  },
+
+  "sidebar": {
+    "logout": "Sair",
+    "register": "Registrar"
+  },
+
+  "toolbar": {
+    "archive": "Arquivar",
+    "dark": "Modo escuro",
+    "inbox": "Caixa de entrada",
+    "light": "Modo claro",
+    "restore": "Restaurar",
+    "trash": "Lixeira"
+  }
+}
