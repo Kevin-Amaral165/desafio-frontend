@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { ButtonVariant } from "../../enum/enum";
 
 export type ButtonProps = {
-  variant?: ButtonVariant;
-  icon?: ReactNode;
   children?: ReactNode;
+  icon?: ReactNode;
+  variant?: ButtonVariant;
 };

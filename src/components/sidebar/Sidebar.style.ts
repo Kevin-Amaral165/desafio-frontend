@@ -1,11 +1,7 @@
 // Libraries
 import styled from "styled-components";
 
-type ContainerProps = {
-  width: number;
-};
-
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
   height: 100vh;
   flex-shrink: 0;
@@ -16,10 +12,6 @@ export const Container = styled.div<ContainerProps>`
   flex-direction: column;
   overflow: visible;
 `;
-
-/* ============================= */
-/* PROFILE (Avatar + Dropdown)   */
-/* ============================= */
 
 export const Profile = styled.div`
   display: flex;
@@ -44,14 +36,9 @@ export const Status = styled.div`
   border: 2px solid white;
 `;
 
-/* ============================= */
-/* MENU                          */
-/* ============================= */
-
 export const MenuGroup = styled.div`
   margin-bottom: 12px;
 `;
-
 
 export const MenuItem = styled.div`
   display: flex;
@@ -61,7 +48,8 @@ export const MenuItem = styled.div`
   color: ${({ theme }) => theme.colors.text};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.surface};
+    background: transparent;
+    cursor: default;
   }
 `;
 
@@ -69,17 +57,15 @@ export const SubMenuItem = styled.div<{ active?: boolean }>`
   padding: 6px 16px;
   margin-left: 8px;
   border-radius: 6px;
+  transition: all 0.15s ease;
   background: ${({ active, theme }) =>
     active ? theme.colors.primary : "transparent"};
   color: ${({ active, theme }) =>
     active ? "#fff" : theme.colors.text};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.surface};
+    background: ${({ active, theme }) =>
+      active ? theme.colors.primary : theme.colors.surface};
+    cursor: pointer;
   }
-`;
-
-export const Count = styled.span`
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.text};
 `;

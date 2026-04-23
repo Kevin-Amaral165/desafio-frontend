@@ -4,6 +4,7 @@ import {
   useRef,
   useEffect,
   type JSX,
+  type RefObject,
 } from "react";
 
 // Enum
@@ -25,14 +26,19 @@ export function Dropdown({
   options,
   position = DropdownPosition.BOTTOM_RIGHT,
 }: DropdownProps): JSX.Element {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const toggle = (e: React.MouseEvent) => {
+  // Ref outside
+  const ref: RefObject<HTMLDivElement | null> =
+    useRef<HTMLDivElement>(null);
+
+  // Toggle dropdown
+  const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setOpen((prev) => !prev);
   };
 
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -41,7 +47,9 @@ export function Dropdown({
     };
 
     window.addEventListener("click", handleClickOutside);
-    return () => window.removeEventListener("click", handleClickOutside);
+
+    return () =>
+      window.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
@@ -55,12 +63,12 @@ export function Dropdown({
               key={index}
               disabled={opt.disabled}
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // stop propagation to prevent immediate close
 
                 if (opt.disabled) return;
 
-                opt.onClick?.();
-                setOpen(false);
+                opt.onClick?.(); // execute action
+                setOpen(false);  // close dropdown after action
               }}
             >
               {opt.label}

@@ -1,14 +1,5 @@
-export type SubMenu = {
-  id: number;
-  label: string;
-};
-
-export type Menu = {
-  count?: number;
-  id: number;
-  label: string;
-  subMenus?: SubMenu[];
-};
+// Types
+import type { Menu } from "../../pages/dashboard/Dashboard.types";
 
 export type SidebarProps = {
   menus: Menu[];

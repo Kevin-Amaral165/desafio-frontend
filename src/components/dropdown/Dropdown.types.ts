@@ -5,8 +5,8 @@ import { DropdownPosition } from "../../enum/enum";
 
 export type Option = {
   disabled?: boolean;
-  onClick?: () => void;
   label: string;
+  onClick?: () => void;
 };
 
 export type DropdownPositionType =

@@ -24,3 +24,8 @@ export enum UserRole {
   ADMIN = "admin",
   USER = "user",
 }
+
+export enum ViewMode {
+  INBOX = "inbox",
+  TRASH = "trash",
+}

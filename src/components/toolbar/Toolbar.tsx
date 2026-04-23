@@ -1,50 +1,75 @@
+// Libraries
 import { useTranslation } from "react-i18next";
 
-// Enum
-import { ThemeMode, Language } from "../../enum/enum";
-
-// Stores
+// Store
 import { useThemeStore } from "../../store/theme.store";
 import { useLanguageStore } from "../../store/language.store";
 
-// Styles
-import { Container, Left, Right } from "./Toolbar.style";
+// Enum
+import { Language, ThemeMode, ViewMode } from "../../enum/enum";
 
-export function Toolbar() {
-  const { t, i18n } = useTranslation();
+// Style
+import {
+  Container,
+  Left,
+  Right,
+  Button,
+} from "./Toolbar.style";
 
-  // THEME
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
-  const mode = useThemeStore((state) => state.mode);
+// Types
+import type { ToolbarProps } from "./Toolbar.types";
 
-  // LANGUAGE
-  const language = useLanguageStore((state) => state.language);
-  const setLanguage = useLanguageStore((state) => state.setLanguage);
+export function Toolbar({
+  onArchive,
+  onRestore,
+  setView,
+   view,
+}: ToolbarProps) {
+  const { t } = useTranslation();
 
-  const handleToggleLanguage = () => {
-    const newLang =
-      language === Language.PT ? Language.EN : Language.PT;
-
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-  };
+  const theme: ThemeMode = useThemeStore((s) => s.mode);
+  const toggleTheme: () => void = useThemeStore((s) => s.toggleTheme);
+  const language: Language = useLanguageStore((s) => s.language);
+  const setLanguage: (lang: Language) => void = useLanguageStore((s) => s.setLanguage);
 
   return (
     <Container>
       <Left>
-        <button>{t("toolbar.archive")}</button>
+        {view === ViewMode.TRASH ? (
+          <Button onClick={onRestore}>
+            ♻ {t("toolbar.restore")}
+          </Button>
+        ) : (
+          <Button onClick={onArchive}>
+            {t("toolbar.archive")}
+          </Button>
+        )}
       </Left>
 
       <Right>
-        <button onClick={handleToggleLanguage}>
-          {language === Language.PT ? "EN 🇺🇸" : "PT 🇧🇷"}
-        </button>
+        <Button onClick={() => setView?.(ViewMode.INBOX)}>
+          📥 {t("toolbar.inbox")}
+        </Button>
 
-        <button onClick={toggleTheme}>
-          {mode === ThemeMode.LIGHT
+        <Button onClick={() => setView?.(ViewMode.TRASH)}>
+          🗑 {t("toolbar.trash")}
+        </Button>
+
+        <Button
+          onClick={() =>
+            setLanguage(
+              language === Language.PT ? Language.EN : Language.PT
+            )
+          }
+        >
+          🌐 {language === Language.PT ? "PT-BR" : "EN"}
+        </Button>
+
+        <Button onClick={toggleTheme}>
+          {theme === ThemeMode.LIGHT
             ? `🌙 ${t("toolbar.dark")}`
             : `☀️ ${t("toolbar.light")}`}
-        </button>
+        </Button>
       </Right>
     </Container>
   );

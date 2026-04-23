@@ -11,6 +11,7 @@ export type User = {
 };
 
 type AuthState = {
+  [x: string]: any;
   user: User | null;
   login: (username: string, password: string) => boolean;
   logout: () => void;

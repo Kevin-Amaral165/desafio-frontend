@@ -11,9 +11,9 @@ import { StyledButton, IconWrapper } from "./Button.style";
 import type { ButtonProps } from "./Button.types";
 
 export function Button({
-  variant = ButtonVariant.DEFAULT,
-  icon,
   children,
+  icon,
+  variant = ButtonVariant.DEFAULT,
 }: ButtonProps): JSX.Element {
   return (
     <StyledButton variant={variant}>

@@ -1,3 +1,4 @@
+// Libraries
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -8,25 +9,31 @@ import { useAuthStore } from "../../store/auth.store";
 // Styles
 import { Container, FormWrapper } from "./Login.style";
 
+// Types
+import type { LoginState } from "./Login.types";
+
 export function LoginPage() {
   const { t } = useTranslation();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+    const [state, setState] = useState<LoginState>({
+      username: "",
+      password: "",
+      error: "",
+    });
 
-  const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
+  const navigate: (path: string) => void = useNavigate();
+  const login: (username: string, password: string) => boolean = useAuthStore((state) => state.login);
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit: (e: React.FormEvent) => void = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const success = login(username, password);
+    const success: boolean = login(state.username, state.password);
 
     if (success) {
       navigate("/dashboard");
     } else {
-      setError(t("login.error"));
+      setState((prevState) => ({ ...prevState, error: t("login.error") }));
     }
   };
 
@@ -36,26 +43,26 @@ export function LoginPage() {
         <h1>{t("login.title")}</h1>
 
         <span style={{ textAlign: "center", fontSize: 13, color: "#6b7280" }}>
-          Use: admin / admin
+          User: admin / admin
         </span>
 
         <form onSubmit={handleSubmit}>
           <input
             placeholder={t("login.username")}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={state.username}
+            onChange={(e) => setState((prevState) => ({ ...prevState, username: e.target.value }))}
           />
 
           <input
             type="password"
             placeholder={t("login.password")}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={state.password}
+            onChange={(e) => setState((prevState) => ({ ...prevState, password: e.target.value }))}
           />
 
           <button type="submit">{t("login.button")}</button>
 
-          {error && <p>{error}</p>}
+          {state.error && <p>{state.error}</p>}
         </form>
       </FormWrapper>
     </Container>
