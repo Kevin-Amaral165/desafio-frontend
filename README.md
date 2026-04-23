@@ -1,73 +1,107 @@
-# React + TypeScript + Vite
+# 📌 Dashboard System (Frontend Challenge)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📖 Sobre o projeto
 
-Currently, two official plugins are available:
+Este projeto é uma aplicação de dashboard desenvolvida em **React + TypeScript**, com foco em gerenciamento de menus e itens dinâmicos consumidos via API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O sistema permite navegação entre menus, visualização de itens relacionados, além de funcionalidades como **exclusão (lixeira) e restauração de itens**.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Funcionalidades
 
-## Expanding the ESLint configuration
+- 🔐 Estrutura de autenticação (login/logout)
+- 📂 Sidebar com menu dinâmico vindo de API
+- 📑 Submenus com seleção ativa
+- 📊 Listagem de itens baseada no submenu selecionado
+- 🗑️ Funcionalidade de lixeira (excluir e restaurar itens)
+- 🌐 Internacionalização (i18n)
+- 🎨 Interface componentizada e reutilizável
+- 🔄 Integração com API mock
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧱 Tecnologias utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- React
+- TypeScript
+- Vite
+- Zustand (state management)
+- Styled-components
+- React i18next
+- REST API (JSON Server / Mock API)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📡 API utilizada
+
+### Menus
+http://my-json-server.typicode.com/EnkiGroup/DesafioFrontEnd2026Jr/menus
+
+### Items
+http://my-json-server.typicode.com/EnkiGroup/DesafioFrontEnd2026Jr/items/{id}
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+src/
+├── components/
+│   ├── sidebar/
+│   ├── dropdown/
+│   ├── button/
+│   └── ...
+├── pages/
+│   ├── dashboard/
+│   ├── login/
+├── store/
+├── config/
+├── enum/
+├── i18n/
+└── App.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🗑️ Lógica da lixeira
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Itens podem ser removidos da listagem principal
+- Itens removidos vão para a lixeira
+- Itens podem ser restaurados
+- Estado gerenciado via Zustand
+
+---
+
+## 🌐 Internacionalização (i18n)
+
+O projeto utiliza `react-i18next`.
+
+### Exemplo de tradução:
+
+```json
+{
+  "sidebar": {
+    "logout": "Logout",
+    "register": "Register"
+  }
+}
 ```
+
+---
+
+## ▶️ Como rodar o projeto
+
+### Instalar dependências
+
+```bash
+npm install
+```
+
+### Rodar projeto
+
+```bash
+npm run dev
+```
+
+---
