@@ -1,9 +1,5 @@
 // Libraries
-import {
-  useState,
-  useEffect,
-  type JSX,
-} from "react";
+import { useState, useEffect, type JSX } from "react";
 
 // Components
 import { ContentList } from "../../components/contentList/ContentList";
@@ -26,6 +22,7 @@ import {
   Main,
   Divider,
   RightPanel,
+  ContentWrapper,
 } from "./Dashboard.style";
 
 // Types
@@ -41,65 +38,37 @@ export function Dashboard(): JSX.Element {
     isLoadingMenus: true,
     isLoadingItems: false,
     menus: [],
-     selectedItems: [],
-    selectedSubMenuId: 0,
+    selectedItems: [],
+    selectedSubMenuId: null,
     trashItems: [],
     view: ViewMode.INBOX,
   });
 
-  /**
-   * Load persisted state from localStorage when component mounts.
-   * This simulates a backend persistence layer.
-   */
+  // ================= LOAD STORAGE =================
   useEffect(() => {
     const saved: string | null = localStorage.getItem(STORAGE_KEY);
 
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        setState(parsed);
-      } catch (e) {
+        setState(JSON.parse(saved));
+      } catch {
         console.warn("Corrupted storage ignored");
       }
     }
   }, []);
 
-   /**
-   * Persist the entire dashboard state to localStorage
-   * to simulate backend persistence behavior.
-   */
+  // ================= PERSIST STATE =================
   useEffect((): void => {
-    const safeState: DashboardState = {
-      selectedSubMenuId: state.selectedSubMenuId,
-      menus: state.menus,
-      inboxBySubMenu: state.inboxBySubMenu,
-      trashItems: state.trashItems,
-      selectedItems: state.selectedItems,
-      view: state.view,
-      isLoadingMenus: state.isLoadingMenus,
-      isLoadingItems: state.isLoadingItems,
-    };
-
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(safeState)
-      );
-    } catch (err) {
-      console.warn("Failed to persist state", err);
-    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
-   /**
-   * Fetch available menus from API (runs once on mount).
-   * Sets initial selected submenu automatically.
-   */
+  // ================= LOAD MENUS =================
   useEffect((): void => {
-    async function loadMenus(): Promise<void> {
+    async function loadMenus() {
       const res: Response = await fetch(MENUS_URL);
       const data: Menu[] = await res.json();
 
-      setState((prev) => ({
+      setState((prev): DashboardState => ({
         ...prev,
         menus: data,
         selectedSubMenuId: data?.[0]?.subMenus?.[0]?.id ?? null,
@@ -110,11 +79,8 @@ export function Dashboard(): JSX.Element {
     loadMenus();
   }, []);
 
-  /**
-   * Fetch items for selected submenu.
-   * Uses local cache to avoid unnecessary API calls.
-   */
-  useEffect((): void => {
+  // ================= LOAD ITEMS =================
+  useEffect(() => {
     if (!state.selectedSubMenuId) return;
 
     const id: number = state.selectedSubMenuId;
@@ -122,16 +88,23 @@ export function Dashboard(): JSX.Element {
     if (state.inboxBySubMenu[id]) return;
 
     async function loadItems() {
-      setState((prev) => ({ ...prev, isLoadingItems: true }));
+      setState((prev): DashboardState => ({ ...prev, isLoadingItems: true }));
 
       const res: Response = await fetch(`${ITEMS_URL}/${id}`);
-      const data: { subMenuItems: Item[] } = await res.json();
+      const data: { subMenuItems?: Item[] } = await res.json();
 
-      setState((prev) => ({
+      const enriched: Item[] = (data.subMenuItems || []).map(
+        (item: Item) => ({
+          ...item,
+          originSubMenuId: id,
+        })
+      );
+
+      setState((prev): DashboardState => ({
         ...prev,
         inboxBySubMenu: {
           ...prev.inboxBySubMenu,
-          [id]: data.subMenuItems || [],
+          [id]: enriched,
         },
         isLoadingItems: false,
       }));
@@ -140,22 +113,16 @@ export function Dashboard(): JSX.Element {
     loadItems();
   }, [state.selectedSubMenuId]);
 
-  /**
-   * Determines which items to display based on current view (inbox vs trash).
-   * Uses cached inbox items and state for trash items.
-   */
+  // ================= VIEW ITEMS =================
   const currentItems: Item[] =
-    state.view === "inbox"
+    state.view === ViewMode.INBOX
       ? state.inboxBySubMenu[state.selectedSubMenuId ?? 0] || []
       : state.trashItems;
 
-  /**
-   * Toggle selection of an item (checkbox logic).
-   * Adds or removes item ID from selected list.
-   */
+  // ================= TOGGLE SELECT ITEM =================
   const toggleSelectItem: (id: number) => void = (id: number) => {
-    setState((prev) => {
-      const exists = prev.selectedItems.includes(id);
+    setState((prev): DashboardState => {
+      const exists: boolean = prev.selectedItems.includes(id);
 
       return {
         ...prev,
@@ -166,12 +133,9 @@ export function Dashboard(): JSX.Element {
     });
   };
 
-  /**
-   * Archive selected items.
-   * Moves items from inbox to trash.
-   */
+  // ================= ARCHIVE =================
   const handleArchive: () => void = () => {
-    const subId: number | null= state.selectedSubMenuId;
+    const subId: number | null = state.selectedSubMenuId;
     if (!subId) return;
 
     const inbox: Item[] = state.inboxBySubMenu[subId] || [];
@@ -193,31 +157,56 @@ export function Dashboard(): JSX.Element {
     }));
   };
 
-  /**
-   * Restore items from trash back to inbox.
-   * Simulates restore operation from backend.
-   */
+  // ================= RESTORE =================
   const handleRestore: () => void = () => {
-    const subId: number | null = state.selectedSubMenuId;
-    if (!subId) return;
-
     const selected: Item[] = state.trashItems.filter((i) =>
       state.selectedItems.includes(i.id)
     );
 
-    const inbox: Item[] = state.inboxBySubMenu[subId] || [];
+    const updatedInbox: { [key: number]: Item[] } = { ...state.inboxBySubMenu };
+
+    selected.forEach((item) => {
+      const subId = (item as Item & { originSubMenuId: number }).originSubMenuId;
+
+      if (!updatedInbox[subId]) {
+        updatedInbox[subId] = [];
+      }
+
+      updatedInbox[subId].push(item);
+    });
 
     setState((prev) => ({
       ...prev,
       trashItems: prev.trashItems.filter(
         (i) => !prev.selectedItems.includes(i.id)
       ),
-      inboxBySubMenu: {
-        ...prev.inboxBySubMenu,
-        [subId]: [...inbox, ...selected],
-      },
+      inboxBySubMenu: updatedInbox,
       selectedItems: [],
     }));
+  };
+
+  // ================= CHANGE VIEW =================
+  const setView: (view: ViewMode) => void = (view: ViewMode) => {
+    setState((prev): DashboardState => {
+      const firstSubMenu =
+        prev.menus?.[0]?.subMenus?.[0]?.id ?? null;
+
+      if (view === ViewMode.TRASH) {
+        return {
+          ...prev,
+          view,
+          selectedSubMenuId: null,
+          selectedItems: [],
+        };
+      }
+
+      return {
+        ...prev,
+        view,
+        selectedSubMenuId: firstSubMenu,
+        selectedItems: [],
+      };
+    });
   };
 
   return (
@@ -231,6 +220,7 @@ export function Dashboard(): JSX.Element {
             ...prev,
             selectedSubMenuId: id,
             selectedItems: [],
+            view: ViewMode.INBOX,
           }))
         }
       />
@@ -240,9 +230,7 @@ export function Dashboard(): JSX.Element {
       <Main>
         <Toolbar
           view={state.view}
-          setView={(view: ViewMode) =>
-            setState((prev) => ({ ...prev, view: view }))
-          }
+          setView={setView}
           onArchive={handleArchive}
           onRestore={handleRestore}
         />
@@ -251,11 +239,13 @@ export function Dashboard(): JSX.Element {
           {state.isLoadingItems ? (
             <Loading />
           ) : (
-            <ContentList
-              items={currentItems}
-              selectedItems={state.selectedItems}
-              onToggleSelect={toggleSelectItem}
-            />
+            <ContentWrapper>
+              <ContentList
+                items={currentItems}
+                selectedItems={state.selectedItems}
+                onToggleSelect={toggleSelectItem}
+              />
+            </ContentWrapper>
           )}
         </RightPanel>
       </Main>

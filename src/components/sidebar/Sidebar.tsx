@@ -24,6 +24,7 @@ import {
   SubMenuItem,
   MenuGroup,
   AvatarWrapper,
+  MenuScroll,
 } from "./Sidebar.style";
 
 // Types
@@ -59,23 +60,26 @@ export function Sidebar({
         </AvatarWrapper>
       </Profile>
 
-      {menus?.map((menu: Menu) => (
-        <MenuGroup key={menu.id}>
-          <MenuItem>
-            <span>{t(resolveKey(menu.name))}</span>
-          </MenuItem>
 
-          {(menu.subMenus || []).map((sub: SubMenu) => (
-            <SubMenuItem
-              key={sub.id}
-              active={selectedSubMenuId === sub.id}
-              onClick={() => onSelectSubMenu(sub.id)}
-            >
-              {t(resolveKey(sub.name))}
-            </SubMenuItem>
-          ))}
-        </MenuGroup>
-      ))}
+      <MenuScroll>
+        {menus?.map((menu: Menu) => (
+          <MenuGroup key={menu.id}>
+            <MenuItem>
+              <span>{t(resolveKey(menu.name))}</span>
+            </MenuItem>
+
+            {(menu.subMenus || []).map((sub: SubMenu) => (
+              <SubMenuItem
+                key={sub.id}
+                active={selectedSubMenuId === sub.id}
+                onClick={() => onSelectSubMenu(sub.id)}
+              >
+                {t(resolveKey(sub.name))}
+              </SubMenuItem>
+            ))}
+          </MenuGroup>
+        ))}
+      </MenuScroll>
     </Container>
   );
 }

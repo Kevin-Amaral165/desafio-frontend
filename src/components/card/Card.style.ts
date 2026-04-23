@@ -12,6 +12,10 @@ export const Container = styled.div<{ selected?: boolean }>`
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
   }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export const Name = styled.div`

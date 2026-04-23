@@ -4,16 +4,22 @@ import styled from "styled-components";
 export const Container = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
   height: 100vh;
-  flex-shrink: 0;
-  padding: 16px;
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.bg};
+
   display: flex;
   flex-direction: column;
-  overflow: visible;
+
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 180px;
+    border-right: none;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  }
 `;
 
 export const Profile = styled.div`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,6 +44,21 @@ export const Status = styled.div`
 
 export const MenuGroup = styled.div`
   margin-bottom: 12px;
+`;
+
+export const MenuScroll = styled.div`
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+
+  @media (max-width: 768px) {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
 `;
 
 export const MenuItem = styled.div`

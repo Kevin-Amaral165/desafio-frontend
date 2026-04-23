@@ -5,8 +5,9 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   padding: 16px;
+  overflow: hidden;
   background: ${({ theme }) => theme.colors.surface};
 `;
 
@@ -21,6 +22,11 @@ export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 20px;
+  }
 
   h1 {
     text-align: center;

@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { Card } from "../card/Card";
 import { EmptyState } from "../emptyState/EmptyState";
 
+// Style
+import { Container } from "./ContentList.style";
+
 // Types
 import type { ContentListProps } from "./ContentList.types";
 import type { Item } from "../../pages/dashboard/Dashboard.types";
@@ -27,7 +30,7 @@ export function ContentList({
   }
 
   return (
-    <div>
+    <Container>
       {items.map((item: Item): JSX.Element => (
         <Card
           key={item.id}
@@ -36,6 +39,6 @@ export function ContentList({
           onToggle={onToggleSelect}
         />
       ))}
-    </div>
+    </Container>
   );
 }
