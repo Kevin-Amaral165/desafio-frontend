@@ -1,8 +1,17 @@
+// Libraries
+import type { JSX } from "react";
+
+// Store
 import { useAuthStore } from "../../store/auth.store";
+
+// Components
 import { Dropdown } from "../dropdown/Dropdown";
 import { Button } from "../button/Button";
 
-import type { Menu } from "./Sidebar.types";
+// Enum
+import { ButtonVariant, DropdownPosition } from "../../enum/enum";
+
+// Styles
 import {
   Container,
   Profile,
@@ -14,39 +23,33 @@ import {
   AvatarWrapper,
 } from "./Sidebar.style";
 
-type Props = {
-  menus: Menu[];
-  selectedSubMenuId?: number;
-  onSelectSubMenu: (id: number) => void;
-  width: number;
-};
+// Types
+import type { SidebarProps } from "./Sidebar.types";
 
 export function Sidebar({
   menus,
-  selectedSubMenuId,
   onSelectSubMenu,
+  selectedSubMenuId,
   width,
-}: Props) {
-  const logout = useAuthStore((state) => state.logout);
+}: SidebarProps): JSX.Element {
+  const logout: () => void = useAuthStore((state) => state.logout);
 
   return (
     <Container width={width}>
-      {/* PROFILE + DROPDOWN */}
       <Profile>
         <AvatarWrapper>
-            <Dropdown
-            position="bottom-left"
-            trigger={<Button variant="round">OA</Button>}
+          <Dropdown
+            position={DropdownPosition.BOTTOM_RIGHT}
+            trigger={<Button variant={ButtonVariant.ROUND}>OA</Button>}
             options={[
                 { label: "Logout", onClick: logout },
                 { label: "Register", disabled: true },
             ]}
-            />
-            <Status />
+          />
+          <Status />
         </AvatarWrapper>
         </Profile>
 
-      {/* MENUS */}
       {menus.map((menu) => (
         <MenuGroup key={menu.id}>
           <MenuItem>

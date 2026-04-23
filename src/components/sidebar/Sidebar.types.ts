@@ -4,8 +4,15 @@ export type SubMenu = {
 };
 
 export type Menu = {
+  count?: number;
   id: number;
   label: string;
-  count?: number;
   subMenus?: SubMenu[];
+};
+
+export type SidebarProps = {
+  menus: Menu[];
+  onSelectSubMenu: (id: number) => void;
+  selectedSubMenuId?: number;
+  width: number;
 };

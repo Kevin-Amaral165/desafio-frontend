@@ -1,13 +1,17 @@
+// Libraries
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+// Enum
+import { UserRole } from "../enum/enum";
+
 export type User = {
   username: string;
+  role: UserRole;
 };
 
 type AuthState = {
   user: User | null;
-
   login: (username: string, password: string) => boolean;
   logout: () => void;
 };
@@ -18,10 +22,10 @@ export const useAuthStore = create<AuthState>()(
       user: null,
 
       login: (username, password) => {
-        const isValid = username === "admin" && password === "admin";
+        const isValid: boolean = username === UserRole.ADMIN && password === UserRole.ADMIN;
 
         if (isValid) {
-          set({ user: { username } });
+          set({ user: { username, role: UserRole.ADMIN } });
         }
 
         return isValid;

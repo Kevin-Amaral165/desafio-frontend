@@ -1,22 +1,22 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+// Libraries
+import type { JSX } from "react";
+
+// Enum
+import { ButtonVariant } from "../../enum/enum";
+
+// Style
 import { StyledButton, IconWrapper } from "./Button.style";
 
-type Variant = "default" | "round";
-
-type Props = {
-  variant?: Variant;
-  icon?: ReactNode;
-  children?: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+// Types
+import type { ButtonProps } from "./Button.types";
 
 export function Button({
-  variant = "default",
+  variant = ButtonVariant.DEFAULT,
   icon,
   children,
-  ...rest
-}: Props) {
+}: ButtonProps): JSX.Element {
   return (
-    <StyledButton variant={variant} {...rest}>
+    <StyledButton variant={variant}>
       {icon && <IconWrapper>{icon}</IconWrapper>}
       {children}
     </StyledButton>

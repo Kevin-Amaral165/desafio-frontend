@@ -1,43 +1,48 @@
+// Libraries
 import styled, { css } from "styled-components";
 
-type Props = {
-  variant: "default" | "round";
-};
+// Enum
+import { ButtonVariant } from "../../enum/enum";
 
-export const StyledButton = styled.button<Props>`
+// Types
+import type { ButtonProps } from "./Button.types";
+
+export const StyledButton = styled.button<ButtonProps>`
   border: none;
   cursor: pointer;
   font-weight: 500;
   transition: 0.2s;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
 
-  ${({ variant }) =>
-    variant === "default" &&
+  /* DEFAULT BUTTON */
+  ${({ variant, theme }) =>
+    variant === ButtonVariant.DEFAULT &&
     css`
       padding: 8px 14px;
       border-radius: 6px;
-      background: #6366f1;
+      background: ${theme.colors.primary};
       color: white;
 
       &:hover {
-        background: #4f46e5;
+        opacity: 0.9;
       }
     `}
 
-  ${({ variant }) =>
-    variant === "round" &&
+  /* ROUND BUTTON */
+  ${({ variant, theme }) =>
+    variant === ButtonVariant.ROUND &&
     css`
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #e5e7eb;
+      background: ${theme.colors.surface};
+      color: ${theme.colors.text};
 
       &:hover {
-        background: #d1d5db;
+        background: ${theme.colors.border};
       }
     `}
 `;

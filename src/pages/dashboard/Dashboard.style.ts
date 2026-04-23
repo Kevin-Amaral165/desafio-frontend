@@ -1,3 +1,4 @@
+// Libraries
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -16,7 +17,8 @@ export const RightPanel = styled.div`
   flex: 1;
   padding: 16px;
   overflow: auto;
-  background: #f9fafb;
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Divider = styled.div`
@@ -25,6 +27,6 @@ export const Divider = styled.div`
   background: transparent;
 
   &:hover {
-    background: #c7d2fe;
+    background: ${({ theme }) => theme.colors.primary};
   }
 `;
